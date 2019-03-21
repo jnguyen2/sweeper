@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="miscBlack">#000000</color>
     <color name="miscRed">#FF0000</color>
+    <color name="miscOrange">#fc6000</color>
 </resources>
