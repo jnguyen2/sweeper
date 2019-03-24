@@ -1,6 +1,7 @@
 package edu.fandm.jnguyen.sweeper;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.Button;
@@ -25,6 +26,10 @@ public class ButtonGrid extends GridLayout {
         addButtons(context);
     }
 
+    private int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
     private void addButtons(Context context) {
         for (int i = 0; i < buttonCount; i++) {
             Button button = new Button(context);
@@ -32,10 +37,17 @@ public class ButtonGrid extends GridLayout {
 
             // Add margins.
             GridLayout.LayoutParams buttonLayoutParams = new GridLayout.LayoutParams();
-            buttonLayoutParams.setMargins(10, 10, 10, 10);
+            buttonLayoutParams.setMargins(15, 10, 15, 10);
+
+            // Fix cell size.
+            buttonLayoutParams.height = dpToPx(80);
+            buttonLayoutParams.width = dpToPx(80);
 
             buttons.add(button);
             addView(button, buttonLayoutParams);
+
+            // Make it circular.
+            button.setBackgroundResource(R.drawable.bomb_blank);
         }
     }
 
