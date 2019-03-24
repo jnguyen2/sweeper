@@ -77,11 +77,18 @@ public class MainActivity extends AppCompatActivity {
         // If the clock is setTicking, buttons should be on I guess.
         buttonsEnabled(isTicking);
 
+        // Update icon for start button.
+        updateStartButton();
+    }
+
+    private void updateStartButton() {
+        Button startButton = findViewById(R.id.button_start);
+
         // Set icon appropriately.
         if (isTicking) {
-            v.setBackgroundResource(R.drawable.close_white);
+            startButton.setBackgroundResource(R.drawable.close_white);
         } else {
-            v.setBackgroundResource(R.drawable.refresh_white);
+            startButton.setBackgroundResource(R.drawable.refresh_white);
         }
     }
 
@@ -122,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         if (sweeperGame.isGameOver()) {
             setTicking(false);
             buttonsEnabled(false);
+            updateStartButton();
             updateScore();
             updateUI();
             return;
