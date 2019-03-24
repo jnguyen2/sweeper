@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private SweeperGame sweeperGame;
 
     // Game ticks.
-    private int clock = 0;
     private boolean isTicking = false;
     private Handler handler = new Handler();
     private TickTask tickTask = new TickTask();
@@ -39,12 +38,16 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     sweeperGame.defuseBomb(idx);
-                    updateUI();
+                    v.setBackgroundResource(R.drawable.bomb_inactive);
                 }
             });
             bombs.add(button);
         }
 
+        // Start a new game.
+        sweeperGame.newGame();
+
+        // Disable all buttons until a game starts.
         buttonsEnabled(false);
     }
 
@@ -57,15 +60,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ticking(boolean on) {
+        isTicking = on;
         if (on) {
             handler.removeCallbacks(tickTask);
             handler.postDelayed(tickTask, 500);
-            isTicking = true;
             sweeperGame.newGame();
         } else {
-            isTicking = false;
             handler.removeCallbacks(tickTask);
-            clock = 0;
         }
     }
 
@@ -73,38 +74,38 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            tick();
-            long start = SystemClock.uptimeMillis();
-            handler.postAtTime(this, start + 500);
+            if (isTicking) {
+                tick();
+                long start = SystemClock.uptimeMillis();
+                handler.postAtTime(this, start + 500);
+            }
         }
     }
 
     private void tick() {
         updateUI();
         sweeperGame.tick();
-        clock++;
-    }
-
-    private void updateUI() {
-        TextView clockTV = findViewById(R.id.textView_clock);
-        clockTV.setText(Integer.toString(sweeperGame.getScore()));
-
-        for (int i = 0; i < bombs.size(); i++) {
-            Button bomb = bombs.get(i);
-            if (sweeperGame.bombIsActive(i)) {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscRed));
-            } else if (sweeperGame.bombExploded(i)) {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscBlack));
-            } else {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscWhite));
-            }
-        }
 
         if (sweeperGame.isGameOver()) {
             ticking(false);
             buttonsEnabled(false);
             indicateLoss();
-            return;
+        }
+    }
+
+    private void updateUI() {
+        TextView scoreTV = findViewById(R.id.textView_clock);
+        scoreTV.setText(Integer.toString(sweeperGame.getScore()));
+
+        for (int i = 0; i < bombs.size(); i++) {
+            Button bomb = bombs.get(i);
+            if (sweeperGame.bombIsActive(i)) {
+                bomb.setBackgroundResource(R.drawable.bomb_active);
+            } else if (sweeperGame.bombExploded(i)) {
+                bomb.setBackgroundResource(R.drawable.bomb_dead);
+            } else {
+                bomb.setBackgroundResource(R.drawable.bomb_blank);
+            }
         }
     }
 
@@ -115,10 +116,12 @@ public class MainActivity extends AppCompatActivity {
             // Update color.
             if (!on) {
                 if (!sweeperGame.bombExploded(i)) {
-                    bomb.setBackgroundColor(getResources().getColor(R.color.miscWhite));
+                    bomb.setBackgroundResource(R.drawable.bomb_blank);
+                } else {
+                    bomb.setBackgroundResource(R.drawable.bomb_dead);
                 }
             } else {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscBlack));
+                bomb.setBackgroundResource(R.drawable.bomb_inactive);
             }
 
             bomb.setEnabled(on);

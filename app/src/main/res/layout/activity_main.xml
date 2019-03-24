@@ -24,6 +24,7 @@
         android:id="@+id/buttonGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:columnCount="4"
         android:rowCount="4"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,6 +40,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="N/A"
+        android:textColor="@color/miscBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
