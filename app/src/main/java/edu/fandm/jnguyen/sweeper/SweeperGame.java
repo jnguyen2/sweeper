@@ -11,6 +11,7 @@ public class SweeperGame {
 
     private static SweeperGame sweeperGame;
     private Random random = new Random();
+    private int clock;
     private int lives;
     private int bombsDefused;
     private int bombCount;
@@ -32,6 +33,10 @@ public class SweeperGame {
 
     boolean isGameOver() {
         return notExplodedIndices.isEmpty() || lives <= 0;
+    }
+
+    int getClock() {
+        return clock;
     }
 
     int getBombCount() {
@@ -66,7 +71,8 @@ public class SweeperGame {
     }
 
     void newGame() {
-        // Reset lives and score.
+        // Reset counters.
+        clock = 0;
         lives = 3;
         bombsDefused = 0;
 
@@ -84,6 +90,8 @@ public class SweeperGame {
     }
 
     void tick() {
+        clock++;
+
         int desired = random.nextInt(notExplodedIndices.size() / 2);
         // Activate an inactive bomb.
         while (desired > 0) {
