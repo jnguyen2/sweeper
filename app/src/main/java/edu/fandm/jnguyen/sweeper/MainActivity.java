@@ -24,64 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private TickTask tickTask = new TickTask();
 
-    public void startGame(View v) {
-        ticking(!isTicking);
-    }
-
-    public void ticking(boolean on) {
-        if (on) {
-            handler.removeCallbacks(tickTask);
-            handler.postDelayed(tickTask, 1000);
-            isTicking = true;
-            sweeperGame.newGame();
-        } else {
-            isTicking = false;
-            handler.removeCallbacks(tickTask);
-            clock = 0;
-        }
-    }
-
-    class TickTask implements Runnable {
-
-        @Override
-        public void run() {
-            tick();
-            long start = SystemClock.uptimeMillis();
-            handler.postAtTime(this, start + 1000);
-        }
-    }
-
-    private void tick() {
-        updateUI();
-        sweeperGame.tick();
-        clock++;
-    }
-
-    private void updateUI() {
-        if (sweeperGame.isGameOver()) {
-            ticking(false);
-            indicateLoss();
-        }
-
-        TextView clockTV = findViewById(R.id.textView_clock);
-        clockTV.setText(Integer.toString(clock));
-
-        for (int i = 0; i < bombs.size(); i++) {
-            Button bomb = bombs.get(i);
-            if (sweeperGame.bombIsActive(i)) {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscRed));
-            } else if (sweeperGame.bombExploded(i)) {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscBlack));
-            } else {
-                bomb.setBackgroundColor(getResources().getColor(R.color.miscWhite));
-            }
-        }
-    }
-
-    private void indicateLoss() {
-        Toast.makeText(this, "You lost!", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,5 +44,88 @@ public class MainActivity extends AppCompatActivity {
             });
             bombs.add(button);
         }
+
+        buttonsEnabled(false);
+    }
+
+    public void startGame(View v) {
+        // Invert ticking.
+        ticking(!isTicking);
+
+        // If the clock is ticking, buttons should be on I guess.
+        buttonsEnabled(isTicking);
+    }
+
+    public void ticking(boolean on) {
+        if (on) {
+            handler.removeCallbacks(tickTask);
+            handler.postDelayed(tickTask, 500);
+            isTicking = true;
+            sweeperGame.newGame();
+        } else {
+            isTicking = false;
+            handler.removeCallbacks(tickTask);
+            clock = 0;
+        }
+    }
+
+    class TickTask implements Runnable {
+
+        @Override
+        public void run() {
+            tick();
+            long start = SystemClock.uptimeMillis();
+            handler.postAtTime(this, start + 500);
+        }
+    }
+
+    private void tick() {
+        updateUI();
+        sweeperGame.tick();
+        clock++;
+    }
+
+    private void updateUI() {
+        TextView clockTV = findViewById(R.id.textView_clock);
+        clockTV.setText(Integer.toString(sweeperGame.getScore()));
+
+        for (int i = 0; i < bombs.size(); i++) {
+            Button bomb = bombs.get(i);
+            if (sweeperGame.bombIsActive(i)) {
+                bomb.setBackgroundColor(getResources().getColor(R.color.miscRed));
+            } else if (sweeperGame.bombExploded(i)) {
+                bomb.setBackgroundColor(getResources().getColor(R.color.miscBlack));
+            } else {
+                bomb.setBackgroundColor(getResources().getColor(R.color.miscWhite));
+            }
+        }
+
+        if (sweeperGame.isGameOver()) {
+            ticking(false);
+            buttonsEnabled(false);
+            indicateLoss();
+            return;
+        }
+    }
+
+    private void buttonsEnabled(boolean on) {
+        for (int i = 0; i < bombs.size(); i++) {
+            Button bomb = bombs.get(i);
+
+            // Update color.
+            if (!on) {
+                if (!sweeperGame.bombExploded(i)) {
+                    bomb.setBackgroundColor(getResources().getColor(R.color.miscWhite));
+                }
+            } else {
+                bomb.setBackgroundColor(getResources().getColor(R.color.miscBlack));
+            }
+
+            bomb.setEnabled(on);
+        }
+    }
+
+    private void indicateLoss() {
+        Toast.makeText(this, "You lost!", Toast.LENGTH_SHORT).show();
     }
 }
