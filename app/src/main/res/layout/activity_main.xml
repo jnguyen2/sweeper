@@ -5,20 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/miscWhite"
+    android:background="@color/miscBlack"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/button_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/refresh_white"
         android:onClick="startGame"
-        android:text="Start Game"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGrid"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/textView_record"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonGrid"/>
 
     <edu.fandm.jnguyen.sweeper.ButtonGrid
         android:id="@+id/buttonGrid"
@@ -37,11 +36,26 @@
         android:id="@+id/textView_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="N/A"
-        android:textColor="@color/miscBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fontFamily="Roboto Mono"
+        android:text="@string/no_score"
+        android:textColor="@color/miscWhite"
+        android:textSize="36sp"
+        app:layout_constraintTop_toBottomOf="@id/buttonGrid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/textView_record"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="Roboto Mono"
+        android:textSize="36sp"
+        android:text="BEST: 0"
+        android:textColor="@color/miscWhite"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonGrid"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/button_start"/>
 
 </android.support.constraint.ConstraintLayout>
