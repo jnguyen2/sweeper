@@ -33,7 +33,7 @@ public class ButtonGrid extends GridLayout {
     private void addButtons(Context context) {
         for (int i = 0; i < buttonCount; i++) {
             Button button = new Button(context);
-            button.setBackgroundColor(context.getResources().getColor(R.color.miscWhite));
+            button.setBackgroundColor(context.getResources().getColor(R.color.white));
 
             // Add margins.
             GridLayout.LayoutParams buttonLayoutParams = new GridLayout.LayoutParams();
