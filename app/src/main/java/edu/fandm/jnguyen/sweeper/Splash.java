@@ -15,6 +15,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // Touching anywhere on the activity closes it.
         ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout_splash);
         constraintLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
