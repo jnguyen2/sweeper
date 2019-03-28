@@ -117,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
             sweeperGame.newGame();
         } else {
             handler.removeCallbacks(tickTask);
+
+            // Final tick to update score.
+            sweeperGame.tick(null);
+            updateScore();
+            updateUI();
         }
     }
 

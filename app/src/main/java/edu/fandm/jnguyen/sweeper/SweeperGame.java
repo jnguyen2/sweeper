@@ -111,6 +111,11 @@ public class SweeperGame {
         // Tick tock.
         clock++;
 
+        // No input -- special case final tick.
+        if (inputs == null) {
+            return;
+        }
+
         // Take no inputs and make no changes to the game during safe time.
         // This is when the user is starting the game.
         if (isSafeTime()) {
