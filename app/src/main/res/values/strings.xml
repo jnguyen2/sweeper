@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Sweeper</string>
+    <string name="no_best">BEST: 0</string>
     <string name="no_score">N/A</string>
     <string name="preferences_file_key">stats</string>
     <string name="high_score_key">stats</string>
+    <string name="game_welcome">Welcome to Sweeper!</string>
+    <string name="game_description">Sweeper is a game in which you have to defuse bombs that randomly activate in a grid. \n\n
+        If you fail to defuse a bomb in time or attempt to defuse a bomb that is not active, you will lose a life. \n\n
+        You have three lives. Try to stay alive for as long as possible!</string>
+    <string name="good_luck">Good luck!</string>
 </resources>

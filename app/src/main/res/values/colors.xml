@@ -3,8 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="miscWhite">#FFFFFF</color>
-    <color name="miscBlack">#000000</color>
-    <color name="miscRed">#FF0000</color>
-    <color name="miscOrange">#fc6000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#fc6000</color>
 </resources>

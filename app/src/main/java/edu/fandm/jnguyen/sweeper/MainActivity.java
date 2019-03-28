@@ -1,5 +1,6 @@
 package edu.fandm.jnguyen.sweeper;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -50,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     inputsBetweenTicks.add(idx);
-                    // Note that the bombs go blank immediately, but that does not mean they have been
-                    // updated within the actual game.
-                    v.setBackgroundResource(R.drawable.bomb_blank);
+                    if (sweeperGame.bombIsActive(idx)) {
+                        increaseScore();
+                        v.setBackgroundResource(R.drawable.bomb_blank);
+                    } else if (!sweeperGame.bombExploded(idx)) {
+                        v.setBackgroundResource(R.drawable.bomb_dead);
+                    }
                 }
             });
 
@@ -67,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences(getString(R.string.preferences_file_key),
                 MODE_PRIVATE);
         highScore = sharedPreferences.getInt(getString(R.string.high_score_key), 0);
+
+        // Show splash
+        boolean intro = sharedPreferences.getBoolean("intro", false);
+        if (!intro) {
+            showSplash(null);
+        }
+
         updateUI();
     }
 
@@ -79,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Update icon for start button.
         updateStartButton();
+    }
+
+    public void increaseScore() {
+        TextView scoreTv = findViewById(R.id.textView_score);
+        int score = Integer.parseInt(scoreTv.getText().toString());
+        scoreTv.setText(String.format("%d", score + 1));
     }
 
     private void updateStartButton() {
@@ -150,7 +167,13 @@ public class MainActivity extends AppCompatActivity {
     private void updateScore() {
         if (sweeperGame.getScore() > highScore) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            // Update the user's best score.
             editor.putInt(getString(R.string.high_score_key), sweeperGame.getScore());
+
+            // Update that the user has played one game and no longer needs the splash screen.
+            editor.putBoolean("intro", true);
+
             editor.apply();
             highScore = sweeperGame.getScore();
         }
@@ -160,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         TextView bestScore = findViewById(R.id.textView_record);
         bestScore.setText(String.format("BEST: %d", highScore));
 
-        TextView scoreTV = findViewById(R.id.textView_clock);
+        TextView scoreTV = findViewById(R.id.textView_score);
         scoreTV.setText(Integer.toString(sweeperGame.getScore()));
 
         for (int i = 0; i < buttons.size(); i++) {
@@ -192,5 +215,10 @@ public class MainActivity extends AppCompatActivity {
 
             bomb.setEnabled(on);
         }
+    }
+
+    public void showSplash(View v) {
+        Intent intent = new Intent(this, Splash.class);
+        startActivity(intent);
     }
 }

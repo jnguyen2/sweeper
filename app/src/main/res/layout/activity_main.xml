@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/miscBlack"
     tools:context=".MainActivity">
 
     <Button
@@ -33,12 +32,12 @@
         extra:buttonCount="@integer/bomb_count" />
 
     <TextView
-        android:id="@+id/textView_clock"
+        android:id="@+id/textView_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="Roboto Mono"
         android:text="@string/no_score"
-        android:textColor="@color/miscWhite"
+        android:textColor="@color/white"
         android:textSize="36sp"
         app:layout_constraintTop_toBottomOf="@id/buttonGrid"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,11 +50,22 @@
         android:layout_height="wrap_content"
         android:fontFamily="Roboto Mono"
         android:textSize="36sp"
-        android:text="BEST: 0"
-        android:textColor="@color/miscWhite"
+        android:text="@string/no_best"
+        android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/buttonGrid"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/button_start"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/ic_info_outline_white_24dp"
+        android:onClick="showSplash"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
